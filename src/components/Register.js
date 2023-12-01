@@ -8,14 +8,8 @@ const Register = (props) => {
     const [passwordError, setPasswordError] = useState("")
 
     const navigate = useNavigate();
-/*
-    const onButtonClick = () => {
-        props.setLoggedIn(true);
-    }
-*/
-    const onButtonRegisterClick = () =>{
-        navigate("/Register")
-    }
+
+
     return <div className={"mainContainer"}>
         <div className={"titleContainer"}>
             <div>Sign Up</div>
@@ -43,7 +37,7 @@ const Register = (props) => {
             <input
                 className={"inputButton"}
                 type="button"
-                onClick={onButtonRegisterClick}
+                
                 value={"Done"} />
         </div>
     </div>

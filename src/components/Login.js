@@ -12,6 +12,9 @@ const Login = (props) => {
     const onButtonClick = () => {
         props.setLoggedIn(true);
     }
+    const onButtonRegisterClick = () =>{
+        navigate("/Register")
+    }
 
     return <div className={"mainContainer"}>
         <div className={"titleContainer"}>
@@ -48,7 +51,7 @@ const Login = (props) => {
             <input
                 className={"inputButton"}
                 type="button"
-                onClick={onButtonClick}
+                onClick={onButtonRegisterClick}
                 value={"Sign up"} />
         </div>
     </div>
