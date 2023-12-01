@@ -3,6 +3,7 @@ import 'office-ui-fabric-react/dist/css/fabric.css';
 import './App.css';
 import Login from './components/Login';
 import MainPage from './components/MainPage';
+import Register from './components/Register';
 
 import {BrowserRouter, Route, Routes, Navigate} from 'react-router-dom'
 import { useState } from 'react';
