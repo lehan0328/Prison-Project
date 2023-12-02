@@ -10,7 +10,7 @@ const Register = (props) => {
     const navigate = useNavigate();
 
     const onButtonClick =() => {
-        navigate(-1);
+        navigate("/Login")
     }
     return <div className={"mainContainer"}>
         <div className={"titleContainer"}>
