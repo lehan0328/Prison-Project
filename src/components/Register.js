@@ -9,7 +9,9 @@ const Register = (props) => {
 
     const navigate = useNavigate();
 
-
+    const onButtonClick =() => {
+        navigate("/Login")
+    }
     return <div className={"mainContainer"}>
         <div className={"titleContainer"}>
             <div>Sign Up</div>
@@ -37,7 +39,7 @@ const Register = (props) => {
             <input
                 className={"inputButton"}
                 type="button"
-                
+                onClick={onButtonClick}
                 value={"Done"} />
         </div>
     </div>
