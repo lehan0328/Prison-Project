@@ -1,15 +1,28 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Login = (props) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
+    const [success, setSuccess] = useState(false)
 
     const navigate = useNavigate();
 
+    const onButtonClick = (ev) => {
 
+        ev.preventDefault()
+        const data = {username: email, password: password}
+        console.log(data)
+        axios.post('http://localhost:3005/login/log', data)
+        .then(res=>console.log(res.data));
+        setEmail('')
+        setPassword('')
+        setSuccess(true)
+
+    }
     const onButtonRegisterClick = () =>{
         navigate("/Register")
     }
@@ -24,6 +37,7 @@ const Login = (props) => {
                 value={email}
                 placeholder="Enter your email here"
                 onChange={ev => setEmail(ev.target.value)}
+                type = "text"
                 className={"inputBox"} />
             <label className="errorLabel">{emailError}</label>
         </div>
@@ -33,6 +47,7 @@ const Login = (props) => {
                 value={password}
                 placeholder="Enter your password here"
                 onChange={ev => setPassword(ev.target.value)}
+                type = "text"
                 className={"inputBox"} />
             <label className="errorLabel">{passwordError}</label>
         </div>

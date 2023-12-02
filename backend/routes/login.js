@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const mysql = require("mysql")
-
 const db = mysql.createConnection({
     host: "database-1.cur9f5tr5hr1.us-east-2.rds.amazonaws.com",
     user:"admin",
@@ -8,21 +7,12 @@ const db = mysql.createConnection({
     database:"prison_project"
 })
 
-// router.route('/').get((req, res) => {
-//     console.log('abc');
-//     const sql = "SELECT * FROM Appeal";
-//     db.query(sql, (err, data)=> {
-//         if(err) return res.json(err);
-//         return res.json(data);
-//     })
-// })
-
 router.route('/log').post((req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
       return res.status(400).json({ error: 'Username and password are required' });
     }
-    const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
+    const sql = "SELECT * FROM users WHERE email = ? AND password_hash = ?";
     db.query(sql, [username, password], (err, data) => {
       if (err) {
         console.error('Database query error: ' + err.stack);
