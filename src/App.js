@@ -14,22 +14,21 @@ function App() {
     fetch('')
   }, [])
   return (
-    <div></div>
-    // <div className="App">
-    //   <BrowserRouter>
-    //   <Routes>
-    //     {loggedIn ? (
-    //       <Route
-    //       path="/"
-    //       element={<Navigate to="/main_page"/>}
-    //       />
-    //       ):(
-    //         <Route path="/" element={<Login setLoggedIn={setLoggedIn}/>}/>
-    //       )}
-        // <Route path="/main_page" element={<MainPage/>}/>
-    //   </Routes>
-    // //   </BrowserRouter>
-    // </div>
+    <div className="App">
+      <BrowserRouter>
+      <Routes>
+        {loggedIn ? (
+          <Route
+          path="/"
+          element={<Navigate to="/main_page"/>}
+          />
+          ):(
+            <Route path="/" element={<Login setLoggedIn={setLoggedIn}/>}/>
+          )}
+        <Route path="/main_page" element={<MainPage/>}/>
+      </Routes>
+    //   </BrowserRouter>
+    </div>
   );
 }
 

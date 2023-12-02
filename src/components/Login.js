@@ -9,9 +9,7 @@ const Login = (props) => {
 
     const navigate = useNavigate();
 
-    const onButtonClick = () => {
-        props.setLoggedIn(true);
-    }
+
     const onButtonRegisterClick = () =>{
         navigate("/Register")
     }
