@@ -8,6 +8,7 @@ import axios from 'axios';
 // Table View Component
 const MainPage = () => {
     const[data, setData] = useState([]);
+    const[query, setQuery] = useState("");
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -30,7 +31,10 @@ const MainPage = () => {
                 <CardsSection data={data}/>
             </div>
             <div className="ms-Grid-row">
-                <OperationTable data={data}/>
+              //  <OperationTable data={data}/>
+            </div>
+            <div className="ms-Grid-row">
+                
             </div>
             </div>
         </div>
