@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navigation from './navigation';
 import CardsSection from './CardSection';
 import OperationTable from './OperationTable';
+import AddButton from './AddButton';
 import axios from 'axios';
 
 
@@ -34,7 +35,7 @@ const MainPage = () => {
               //  <OperationTable data={data}/>
             </div>
             <div className="ms-Grid-row">
-                
+                  <AddButton/>
             </div>
             </div>
         </div>
