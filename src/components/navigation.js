@@ -19,7 +19,7 @@ const links = [
           }
         },
         {
-          name: 'Projects',
+          name: 'Add',
           key: 'key2',
           url: '/',
           iconProps: {
@@ -33,7 +33,21 @@ const links = [
           }
         },
         {
-          name: 'Settings',
+          name: 'Delete',
+          key: 'key3',
+          url: '/',
+          iconProps: {
+            iconName: 'PlayerSettings',
+            styles: {
+              root: {
+                fontSize: 20,
+                color: '#106ebe',
+              },
+            }
+          }
+        },
+        {
+          name: 'Search',
           key: 'key3',
           url: '/',
           iconProps: {
@@ -65,7 +79,7 @@ const navigationStyles = {
 const Navigation = () => {
     initializeIcons();
     return (
-        <Nav 
+        <Nav
         groups={links}
         selectedKey="key1"
         styles={navigationStyles}
