@@ -25,9 +25,9 @@ const MainPage = () => {
     return (
     <div className="ms-Grid" dir="ltr">
         <div className="md-Grid-row">
-            {/* <div className="ms-Grid-col ms-sm1 ms-xl1">
+            <div className="ms-Grid-col ms-sm1 ms-xl1">
             <Navigation />
-            </div> */}
+            </div>
             <div className="main-element ms-Grid-col ms-sm11 ms-xl11">
             <div className="ms-Grid-row">
                 <CardsSection data={data}/>
