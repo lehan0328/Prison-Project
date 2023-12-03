@@ -10,8 +10,10 @@ app.use(express.json());
 
 // const uri = process.env.ATLAS_URI;
 const loginRouter = require('./routes/login');
+const mainPageRouter = require('./routes/mainPage');
 
 app.use('/login', loginRouter);
+app.use('/main_page', mainPageRouter);
 // const db = mysql.createConnection({
 //     host: "database-1.cur9f5tr5hr1.us-east-2.rds.amazonaws.com",
 //     user:"admin",

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DetailsList } from '@fluentui/react';
 import { mergeStyleSets } from 'office-ui-fabric-react/lib/Styling';
 import 'office-ui-fabric-react/dist/css/fabric.css';
@@ -9,56 +9,32 @@ const classNames = mergeStyleSets({
       margin: 'auto',
     }
   });
-  
-  // Mock data for the Table
-  const operations = [
-    {
-      from: '0000 0284 7529 4751 8475',
-      to: '0980 9808 8200 7680',
-      amount: '$1 510',
-      date: '20-05-2020',
-    },
-    {
-      from: '0000 0284 7529 4751 8475',
-      to: '0980 9808 8200 7680',
-      amount: '$1 010',
-      date: '19-05-2020',
-    },
-    {
-      from: '0000 0284 7529 4751 8475',
-      to: '0980 9808 8200 7680',
-      amount: '$1 350',
-      date: '18-05-2020',
-    },
-    {
-      from: '0000 0284 7529 4751 8475',
-      to: '0980 9808 8200 7680',
-      amount: '$1 900',
-      date: '18-05-2020',
-    },
-    {
-      from: '0000 0284 7529 4751 8475',
-      to: '0980 9808 8200 7680',
-      amount: '$6 350',
-      date: '17-05-2020',
-    }
-  ]
-
-// Columns of the Table
-const columns = [
-    { key: 'column1', name: 'From', fieldName: 'from', minWidth: 100, maxWidth: 300, isResizable: true },
-    { key: 'column2', name: 'To', fieldName: 'to', minWidth: 100, maxWidth: 300, isResizable: true },
-    { key: 'column3', name: 'Amount', fieldName: 'amount', minWidth: 100, maxWidth: 300, isResizable: true },
-    { key: 'column4', name: 'Date', fieldName: 'date', minWidth: 100, maxWidth: 300, isResizable: true },
-  ]
 
 // Table View Component
-const OperationsTable = () => {
+const OperationsTable = ({data}) => {
+  const[tableData, setTableData] = useState([]);
+  const [columns, setColumns] = useState([]);
+  useEffect(() => {
+    if(data && data.query4){
+      const columns = Object.keys(data.query4[0] || {}).map((key) => ({
+        key,
+        name: key,
+        fieldName: key,
+        minWidth: 100,
+        maxWidth: 300,
+        isResizable: true,
+      }));
+
+      setColumns(columns);
+      setTableData(data.query4);
+    }
+  }, [data]);
+  // const columns = tableData;
     return (
       <div data-is-scrollable={true}>
         <div className={`s-Grid-col ms-sm9 ms-xl9 ${classNames.table}`}>
           <DetailsList
-            items={operations}
+            items={tableData}
             columns={columns}
             selectionMode={0}
           />

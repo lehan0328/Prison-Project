@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from '@uifabric/react-cards';
 import { Text, initializeIcons } from '@fluentui/react';
 import 'office-ui-fabric-react/dist/css/fabric.css';
+import axios from 'axios';
 
 // Container Styling
 const container = {
@@ -53,32 +54,39 @@ const styles = {
     }
 };
 
-// Mock data for cards with this data model 
-const cards = [
-    {
-      title: 'Current Balance',
-      amount: '$21 837',
-      icon: 'Money',
-      percentage: '2.3',
-    },
-    {
-      title: 'Current Expanses',
-      amount: '$10 927',
-      icon: 'PaymentCard',
-      percentage: '0.3'
-    },
-    {
-      title: 'Current Income',
-      amount: '$15 093',
-      icon: 'Savings',
-      percentage: '1.3'
-    }
-  ]
 
 
-
-const CardsSection = () => {
+const CardsSection = ({data}) => {
     initializeIcons();
+    // Mock data for cards with this data model
+    const[policeCount, setPoliceCount] = useState(0);
+    const[criminalCount, setCriminalCount] = useState(0);
+    const[precinctCount, setPrecinctCount] = useState(0);
+    useEffect(() => {
+      setPoliceCount(data?.query1?.[0]?.totalPoliceOfficers || 0)
+      setCriminalCount(data?.query2?.[0]?.totalCriminals || 0)
+      setPrecinctCount(data?.query3?.[0]?.totalPrecincts || 0)
+    }, [data]);
+    const cards = [
+      {
+        title: 'Total Police',
+        amount: policeCount,
+        icon: 'Money',
+        // percentage: '2.3',
+      },
+      {
+        title: 'Total Criminal',
+        amount: criminalCount,
+        icon: 'PaymentCard',
+        // percentage: '0.3'
+      },
+      {
+        title: 'Total Precinct',
+        amount: precinctCount,
+        icon: 'Savings',
+        // percentage: '1.3'
+      }
+    ];
     return (
         <div style={container}>
             {cards.map((card) => (
@@ -92,11 +100,11 @@ const CardsSection = () => {
                     <Card.Item>
                         <Text styles={styles.amount}>{card.amount}</Text>
                     </Card.Item>
-                    <Card.Item>
+                    {/* <Card.Item>
                         <Text styles={styles.percentage}>
                         {card.percentage} %
                         </Text>
-                    </Card.Item>
+                    </Card.Item> */}
                     </Card.Section>
                 </Card>
                 </div>
