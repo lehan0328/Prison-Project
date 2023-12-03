@@ -22,7 +22,6 @@ const AddButton = () =>{
         const data = {PO_Name: pname, Badge_num: bnum, Precinct_ID: pid, Phone: pnumber, Status: status}
         console.log(data)
         axios.post('http://localhost:3005/main_page/add_officer', data)
-        
         setPName('')
         setBnum('')
         setPID('')
@@ -34,8 +33,7 @@ const AddButton = () =>{
         ev.preventDefault()
         const data = {Name: cname, Criminal_ID: cid, Phone_num: cnumber, Address: address, Violent_Offender_Status: offenderstatus, Probation_Status: probationstatus, Aliases: Aliases}
         console.log(data)
-        axios.put('http://localhost:3005/main_page/add_criminal', data)
-
+        axios.post('http://localhost:3005/main_page/add_criminal', data)
         setCName('')
         setCID('')
         setCNumber('')
