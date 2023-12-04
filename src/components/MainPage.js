@@ -4,6 +4,7 @@ import CardsSection from './CardSection';
 import OperationTable from './OperationTable';
 import AddButton from './AddButton';
 import axios from 'axios';
+import DeleteButton from './DeleteButton';
 
 
 // Table View Component
@@ -35,7 +36,7 @@ const MainPage = () => {
               //  <OperationTable data={data}/>
             </div>
             <div className="ms-Grid-row">
-                  <AddButton/>
+                  <DeleteButton/>
             </div>
             </div>
         </div>
