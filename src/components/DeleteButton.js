@@ -8,16 +8,12 @@ const DeleteButton = () =>{
 
     const onOfficerDeleteButton = (ev) => {
         ev.preventDefault()
-        const data = {Badge_num: bnum}
-        console.log(data)
-        axios.post('http://localhost:3005/main_page/deletePoliceOfficer/:badgeNum', data)
+        axios.post('http://localhost:3005/main_page/deletePoliceOfficer/${Badge_num}', bnum)
     }
 
     const onCriminalDeleteButton = (ev) => {
         ev.preventDefault()
-        const data = {Criminal_ID: cid}
-        console.log(data)
-        axios.post('http://localhost:3005/main_page/deletePoliceOfficer/:criminalid', data)
+        axios.post('http://localhost:3005/main_page/deleteCriminalOfficer/${Criminal_ID}', cid)
     }
 
     return(
