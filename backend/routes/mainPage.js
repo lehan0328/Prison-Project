@@ -1,19 +1,26 @@
 const router = require('express').Router();
 const mysql = require("mysql")
 const async = require('async');
-const db = mysql.createConnection({
-    host: "database-1.cur9f5tr5hr1.us-east-2.rds.amazonaws.com",
-    user:"admin",
-    password:"preHoch99!",
-    database:"prison_project"
-})
 
-router.route('/').get((req, res) => {
+const icreateConnection = (userId) => {
+  return(
+    mysql.createConnection({
+      host: "database-1.cur9f5tr5hr1.us-east-2.rds.amazonaws.com",
+      user: "admin",
+      password:"preHoch99!",
+      database:"prison_project"
+  })
+  )
+}
+
+router.route('/:tableName').get((req, res) => {
+    const db = icreateConnection(req.session.userId)
+    const tableName = req.params.tableName;
     const queries = [
         'SELECT COUNT(*) AS totalPoliceOfficers FROM Police_Officer',
         'SELECT COUNT(*) AS totalCriminals FROM Criminal',
         'SELECT COUNT(*) AS totalPrecincts FROM Precinct',
-        'SELECT * FROM Crime'
+        `SELECT * FROM ${tableName}`
     ];
     const results = {}
     const executeQuery = (query, callback) => {
@@ -52,6 +59,7 @@ router.route('/').get((req, res) => {
 
    // API endpoint to add a criminal and related information to two tables
 router.route('/add_criminal').post((req, res) => {
+  const db = icreateConnection(req.session.userId)
   const { criminalData, criminalIdData } = req.body;
 
   // Start a transaction
@@ -108,6 +116,7 @@ router.route('/add_criminal').post((req, res) => {
 });
 
 router.route('/add_officer').post((req, res) => {
+  const db = icreateConnection(req.session.userId)
   const { policeOfficerData } = req.body;
   // Start a transaction
   db.beginTransaction((err) => {
@@ -153,8 +162,8 @@ router.route('/add_officer').post((req, res) => {
 
 // Delete Police Officer
 router.route('/deletePoliceOfficer/:badgeNum').delete((req, res) => {
+  const db = icreateConnection(req.session.userId)
   const badgeNum = req.params.badgeNum;
-
   // Start a transaction
   db.beginTransaction((err) => {
     if (err) {
@@ -192,43 +201,113 @@ router.route('/deletePoliceOfficer/:badgeNum').delete((req, res) => {
 
 // Delete Criminal
 router.route('/deleteCriminal/:criminalId').delete((req, res) => {
-  const criminalId = req.params.criminalId;
+    const db = icreateConnection(req.session.userId)
+    const criminalId = req.params.criminalId;
 
-  // Start a transaction
-  db.beginTransaction((err) => {
-    if (err) {
-      console.error('Error starting transaction:', err.message);
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
-    }
-
-    // Delete from Criminal table
-    const deleteCriminalSql = 'DELETE FROM Criminal WHERE Criminal_ID = ?';
-
-    db.query(deleteCriminalSql, [criminalId], (deleteCriminalErr, deleteCriminalResults) => {
-      if (deleteCriminalErr) {
-        return db.rollback(() => {
-          console.error('Error deleting criminal:', deleteCriminalErr.message);
-          res.status(500).json({ error: 'Internal Server Error' });
-        });
+    // Start a transaction
+    db.beginTransaction((err) => {
+      if (err) {
+        console.error('Error starting transaction:', err.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
       }
+      const deleteSentencingSql = 'DELETE FROM Sentencing WHERE Criminal_ID = ?';
 
-      // Commit the transaction if the delete was successful
-      db.commit((commitErr) => {
-        if (commitErr) {
+      db.query(deleteSentencingSql, [criminalId], (deleteSentencingErr, deleteSentencingResults) => {
+        if (deleteSentencingErr) {
           return db.rollback(() => {
-            console.error('Error committing transaction:', commitErr.message);
+            console.error('Error deleting criminal:', deleteSentencingErr.message);
             res.status(500).json({ error: 'Internal Server Error' });
           });
         }
 
-        console.log('Transaction committed successfully');
-        res.status(200).json({ message: 'Criminal deleted successfully' });
+      const deleteCauseSql = 'DELETE FROM Cause WHERE Criminal_ID = ?';
+
+      db.query(deleteCauseSql, [criminalId], (deleteCauseErr, deleteCauseResults) => {
+        if (deleteCauseErr) {
+          return db.rollback(() => {
+            console.error('Error deleting criminal:', deleteCauseErr.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+        }
+      // Delete from Criminal table
+      const deleteCriminalSql = 'DELETE FROM Criminal WHERE Criminal_ID = ?';
+
+      db.query(deleteCriminalSql, [criminalId], (deleteCriminalErr, deleteCriminalResults) => {
+        if (deleteCriminalErr) {
+          return db.rollback(() => {
+            console.error('Error deleting criminal:', deleteCriminalErr.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+        }
+
+        // Commit the transaction if the delete was successful
+        db.commit((commitErr) => {
+          if (commitErr) {
+            return db.rollback(() => {
+              console.error('Error committing transaction:', commitErr.message);
+              res.status(500).json({ error: 'Internal Server Error' });
+            });
+          }
+
+          console.log('Transaction committed successfully');
+          res.status(200).json({ message: 'Criminal deleted successfully' });
+        });
+      });
+    });
+    })
+    });
+  });
+
+  router.route('/update_police_officer/:badgeNum').put((req, res) => {
+    const db = createConnection(req.session.userId);
+    const badgeNum = req.params.badgeNum;
+    const { updatedPoliceOfficerData } = req.body;
+
+    if (!updatedPoliceOfficerData || Object.keys(updatedPoliceOfficerData).length === 0) {
+      return res.status(400).json({ error: 'No fields provided for update' });
+    }
+
+    // Start a transaction
+    db.beginTransaction((err) => {
+      if (err) {
+        console.error('Error starting transaction:', err.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+
+      // Construct dynamic update SQL statement
+      const updateFields = Object.keys(updatedPoliceOfficerData);
+      const updateValues = updateFields.map((field) => `${field} = ?`).join(', ');
+      const updatePoliceOfficerSql = `UPDATE Police_Officer SET ${updateValues} WHERE Badge_num = ?`;
+
+      // Prepare values for the update statement
+      const updatePoliceOfficerValues = updateFields.map((field) => updatedPoliceOfficerData[field]);
+      updatePoliceOfficerValues.push(badgeNum);
+
+      db.query(updatePoliceOfficerSql, updatePoliceOfficerValues, (updateErr, updateResults) => {
+        if (updateErr) {
+          return db.rollback(() => {
+            console.error('Error updating police officer:', updateErr.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+        }
+
+        // Commit the transaction if the update was successful
+        db.commit((commitErr) => {
+          if (commitErr) {
+            return db.rollback(() => {
+              console.error('Error committing transaction:', commitErr.message);
+              res.status(500).json({ error: 'Internal Server Error' });
+            });
+          }
+
+          console.log('Transaction committed successfully');
+          res.status(200).json({ message: 'Police officer updated successfully' });
+        });
       });
     });
   });
-});
-
 
 
 module.exports = router;

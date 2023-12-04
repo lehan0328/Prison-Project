@@ -1,68 +1,6 @@
 import React from 'react';
 import { Nav, initializeIcons } from '@fluentui/react';
 
-const links = [
-    {
-      links: [
-        {
-          name: 'Dashboard',
-          key:'key1',
-          url: '/',
-          iconProps: {
-            iconName: 'News',
-            styles: {
-              root: {
-                fontSize: 20,
-                color: '#106ebe',
-              },
-            }
-          }
-        },
-        {
-          name: 'Add',
-          key: 'key2',
-          url: '/',
-          iconProps: {
-            iconName: 'EventToDoLogo',
-            styles: {
-              root: {
-                fontSize: 20,
-                color: '#106ebe',
-              },
-            }
-          }
-        },
-        {
-          name: 'Delete',
-          key: 'key3',
-          url: '/',
-          iconProps: {
-            iconName: 'PlayerSettings',
-            styles: {
-              root: {
-                fontSize: 20,
-                color: '#106ebe',
-              },
-            }
-          }
-        },
-        {
-          name: 'Search',
-          key: 'key3',
-          url: '/',
-          iconProps: {
-            iconName: 'PlayerSettings',
-            styles: {
-              root: {
-                fontSize: 20,
-                color: '#106ebe',
-              },
-            }
-          }
-        },
-      ],
-    },
-  ];
 
 // Styling for Navigation bar
 const navigationStyles = {
@@ -76,8 +14,58 @@ const navigationStyles = {
   },
 };
 
-const Navigation = () => {
+const Navigation = ({setOperation}) => {
     initializeIcons();
+    const links = [
+      {
+        links: [
+          {
+            name: 'Add',
+            key: 'key2',
+            // url: '/',
+            onClick: () => setOperation("add"),
+            iconProps: {
+              iconName: 'EventToDoLogo',
+              styles: {
+                root: {
+                  fontSize: 20,
+                  color: '#106ebe',
+                },
+              }
+            }
+          },
+          {
+            name: 'Delete',
+            key: 'key3',
+            // url: '/',
+            onClick: () => setOperation("delete"),
+            iconProps: {
+              iconName: 'PlayerSettings',
+              styles: {
+                root: {
+                  fontSize: 20,
+                  color: '#106ebe',
+                },
+              }
+            }
+          },
+          {
+            name: 'Search',
+            key: 'key3',
+            // url: '/',
+            iconProps: {
+              iconName: 'PlayerSettings',
+              styles: {
+                root: {
+                  fontSize: 20,
+                  color: '#106ebe',
+                },
+              }
+            }
+          },
+        ],
+      },
+    ];
     return (
         <Nav
         groups={links}

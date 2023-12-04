@@ -19,6 +19,10 @@ router.route('/log').post((req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
       }
       if (data.length > 0) {
+        const userId = data[0].common_identifier;
+        // Store userId in the session
+        req.session.userId = userId;
+        // console.log(req.session.userId)
         return res.json({ success: true, message: 'Login successful' });
       } else {
         return res.status(401).json({ error: 'Invalid username or password' });

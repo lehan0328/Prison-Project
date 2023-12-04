@@ -17,11 +17,12 @@ const Login = (props) => {
         const data = {username: email, password: password}
         console.log(data)
         axios.post('http://localhost:3005/login/log', data)
-        .then(res=>console.log(res.data));
+        .then(res => setSuccess(res.success));
         setEmail('')
         setPassword('')
-        setSuccess(true)
-
+        if(success){
+            navigate("/main_page");
+        }
     }
     const onButtonRegisterClick = () =>{
         navigate("/register_page");
