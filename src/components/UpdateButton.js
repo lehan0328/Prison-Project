@@ -17,30 +17,29 @@ const UpdateButton = () =>{
     const [probationstatus, setProbationStatus] = useState('');
     const [Aliases, setAliases] = useState('');
 
-    const onOfficerUpdateClick= (ev) => {
+    const onOfficerUpdateClick = (ev) => {
         ev.preventDefault()
-        const data = {PO_Name: pname, Badge_num: bnum, Precinct_ID: pid, Phone: pnumber, Status: status}
-        console.log(data)
-        //axios.post('http://localhost:3005/main_page/add_officer', data)
-        setPName('')
-        setBnum('')
-        setPID('')
-        setPNumber('')
-        setStatus('')
+        const data = {updatedPoliceOfficerData:{PO_Name: pname, Badge_num: bnum, Precinct_ID: pid, Phone: pnumber, Status: status}}
+        axios.put(`http://localhost:3005/main_page/update_police_officer/${bnum}`, data)
+        //setPName('')
+        //setBnum('')
+        //setPID('')
+        //setPNumber('')
+        //setStatus('')
     }
 
-    const onCriminalUpdateClick= (ev) => {
+    const onCriminalUpdateClick = (ev) => {
         ev.preventDefault()
         const data = {Name: cname, Criminal_ID: cid, Phone_num: cnumber, Address: address, Violent_Offender_Status: offenderstatus, Probation_Status: probationstatus, Aliases: Aliases}
         console.log(data)
-        //axios.post('http://localhost:3005/main_page/add_criminal', data)
-        setCName('')
-        setCID('')
-        setCNumber('')
-        setAddress('')
-        setOffenderStatus('')
-        setProbationStatus('')
-        setAliases('')
+        //axios.post('http://localhost:3005/main_page/deleteCriminalOfficer/${Criminal_ID}', cid)
+        //setCName('')
+        //setCID('')
+        //setCNumber('')
+        //setAddress('')
+        //setOffenderStatus('')
+        //setProbationStatus('')
+        //setAliases('')
     }
 
     return(

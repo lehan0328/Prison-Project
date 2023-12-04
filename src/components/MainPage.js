@@ -34,6 +34,9 @@ const MainPage = () => {
             <div className="ms-Grid-row">
                 <CardsSection data={data}/>
             </div>
+            <div className="ms-Grd-row">
+                <SearchBar/>
+            </div>
             <div className="ms-Grid-row">
               //  <OperationTable data={data}/>
             </div>

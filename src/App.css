@@ -93,3 +93,12 @@
   justify-content: center;
   align-items: center;
 }
+
+.searchBox{
+  height: 30px;
+  width: 600px;
+  font-size: medium;
+  border-radius: 8px;
+  border: 1px solid grey;
+  padding-left: 8px;
+}
