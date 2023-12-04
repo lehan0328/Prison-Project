@@ -24,7 +24,7 @@ const Login = (props) => {
 
     }
     const onButtonRegisterClick = () =>{
-        navigate("/Register")
+        navigate("/register_page");
     }
 
     return <div className={"mainContainer"}>

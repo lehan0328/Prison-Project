@@ -45,7 +45,6 @@ router.route('/').get((req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
             return;
           }
-          console.log(results);
           res.json(results);
         }
       );
@@ -63,9 +62,21 @@ router.route('/add_criminal').post((req, res) => {
       return;
     }
 
+      // Insert into Criminal_ID_Table
+      const idTableSql = 'INSERT INTO Criminal_ID_Table (Criminal_ID, Phone_num, Name, Address) VALUES (?, ?, ?, ?)';
+      const idTableValues = [criminalIdData.Criminal_ID, criminalIdData.Phone_num, criminalIdData.Name, criminalIdData.Address];
+      db.query(idTableSql, idTableValues, (idTableErr) => {
+        if (idTableErr) {
+          return db.rollback(() => {
+            console.error('Error adding data to Criminal_ID_Table:', idTableErr.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+        }
+
     // Insert into Criminal table
-    const criminalSql = 'INSERT INTO Criminal (Violent_Offender_Status, Probation_Status, Aliases) VALUES (?, ?, ?)';
+    const criminalSql = 'INSERT INTO Criminal (Criminal_ID ,Violent_Offender_Status, Probation_Status, Aliases) VALUES (?, ?, ?, ?)';
     const criminalValues = [
+      criminalData.Criminal_ID,
       criminalData.Violent_Offender_Status,
       criminalData.Probation_Status,
       JSON.stringify(criminalData.Aliases),
@@ -78,20 +89,6 @@ router.route('/add_criminal').post((req, res) => {
           res.status(500).json({ error: 'Internal Server Error' });
         });
       }
-
-      const criminalId = criminalResults.insertId;
-
-      // Insert into Criminal_ID_Table
-      const idTableSql = 'INSERT INTO Criminal_ID_Table (Criminal_ID, Phone_num, Name, Address) VALUES (?, ?, ?, ?)';
-      const idTableValues = [criminalId, criminalIdData.Phone_num, criminalIdData.Name, criminalIdData.Address];
-
-      db.query(idTableSql, idTableValues, (idTableErr) => {
-        if (idTableErr) {
-          return db.rollback(() => {
-            console.error('Error adding data to Criminal_ID_Table:', idTableErr.message);
-            res.status(500).json({ error: 'Internal Server Error' });
-          });
-        }
 
         // Commit the transaction if both inserts were successful
         db.commit((commitErr) => {
@@ -110,9 +107,8 @@ router.route('/add_criminal').post((req, res) => {
   });
 });
 
-router.route('/add_criminal').post((req, res) => {
+router.route('/add_officer').post((req, res) => {
   const { policeOfficerData } = req.body;
-
   // Start a transaction
   db.beginTransaction((err) => {
     if (err) {
@@ -150,6 +146,84 @@ router.route('/add_criminal').post((req, res) => {
 
         console.log('Transaction committed successfully');
         res.status(201).json({ message: 'Police officer added successfully' });
+      });
+    });
+  });
+});
+
+// Delete Police Officer
+router.route('/deletePoliceOfficer/:badgeNum').delete((req, res) => {
+  const badgeNum = req.params.badgeNum;
+
+  // Start a transaction
+  db.beginTransaction((err) => {
+    if (err) {
+      console.error('Error starting transaction:', err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+
+    // Delete from Police_Officer table
+    const deletePoliceOfficerSql = 'DELETE FROM Police_Officer WHERE Badge_num = ?';
+
+    db.query(deletePoliceOfficerSql, [badgeNum], (deletePoliceOfficerErr, deletePoliceOfficerResults) => {
+      if (deletePoliceOfficerErr) {
+        return db.rollback(() => {
+          console.error('Error deleting police officer:', deletePoliceOfficerErr.message);
+          res.status(500).json({ error: 'Internal Server Error' });
+        });
+      }
+
+      // Commit the transaction if the delete was successful
+      db.commit((commitErr) => {
+        if (commitErr) {
+          return db.rollback(() => {
+            console.error('Error committing transaction:', commitErr.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+        }
+
+        console.log('Transaction committed successfully');
+        res.status(200).json({ message: 'Police officer deleted successfully' });
+      });
+    });
+  });
+});
+
+// Delete Criminal
+router.route('/deleteCriminal/:criminalId').delete((req, res) => {
+  const criminalId = req.params.criminalId;
+
+  // Start a transaction
+  db.beginTransaction((err) => {
+    if (err) {
+      console.error('Error starting transaction:', err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+
+    // Delete from Criminal table
+    const deleteCriminalSql = 'DELETE FROM Criminal WHERE Criminal_ID = ?';
+
+    db.query(deleteCriminalSql, [criminalId], (deleteCriminalErr, deleteCriminalResults) => {
+      if (deleteCriminalErr) {
+        return db.rollback(() => {
+          console.error('Error deleting criminal:', deleteCriminalErr.message);
+          res.status(500).json({ error: 'Internal Server Error' });
+        });
+      }
+
+      // Commit the transaction if the delete was successful
+      db.commit((commitErr) => {
+        if (commitErr) {
+          return db.rollback(() => {
+            console.error('Error committing transaction:', commitErr.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+        }
+
+        console.log('Transaction committed successfully');
+        res.status(200).json({ message: 'Criminal deleted successfully' });
       });
     });
   });

@@ -36,3 +36,8 @@ input[type="button"] {
     border-radius: 8px;
     cursor: pointer;
 }
+
+input[type="text"]{
+  font-family: Menlo, Monaco, Lucida Console, Courier New, monospace;
+  text-align: center
+}

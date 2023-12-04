@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Navigation from './navigation';
 import CardsSection from './CardSection';
 import OperationTable from './OperationTable';
+import AddButton from './AddButton';
 import axios from 'axios';
 
 
 // Table View Component
 const MainPage = () => {
     const[data, setData] = useState([]);
+    const[query, setQuery] = useState("");
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -31,6 +33,9 @@ const MainPage = () => {
             </div>
             <div className="ms-Grid-row">
                 <OperationTable data={data}/>
+            </div>
+            <div className="ms-Grid-row">
+                  <AddButton/>
             </div>
             </div>
         </div>
