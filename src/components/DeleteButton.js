@@ -13,7 +13,7 @@ const DeleteButton = () =>{
 
     const onCriminalDeleteButton = (ev) => {
         ev.preventDefault()
-        axios.post('http://localhost:3005/main_page/deletePoliceOfficer/:criminalid/${cid}')
+        axios.post('http://localhost:3005/main_page/deleteCriminal/:criminalid/${cid}')
     }
 
     return(
