@@ -78,6 +78,15 @@
   padding-left: 8px;
 }
 
+.addBoxMustFillOut{
+  height: 30px;
+  width: 200px;
+  font-size: medium;
+  border-radius: 8px;
+  border: 2px solid red;
+  padding-left: 8px;
+}
+
 .addContainer{
   display: flex;
   flex-direction: column;

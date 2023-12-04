@@ -33,7 +33,7 @@ const UpdateButton = () =>{
         ev.preventDefault()
         const data = {Name: cname, Criminal_ID: cid, Phone_num: cnumber, Address: address, Violent_Offender_Status: offenderstatus, Probation_Status: probationstatus, Aliases: Aliases}
         console.log(data)
-        axios.post('http://localhost:3005/main_page/add_criminal', data)
+        //axios.post('http://localhost:3005/main_page/add_criminal', data)
         setCName('')
         setCID('')
         setCNumber('')
@@ -60,7 +60,7 @@ const UpdateButton = () =>{
                 <input
                     type='text'
                     placeholder='Badge Number'
-                    className = 'addBox'
+                    className = 'addBoxMustFillOut'
                     value = {bnum}
                     onChange={ev => setBnum(ev.target.value)}
                 ></input>
@@ -99,7 +99,7 @@ const UpdateButton = () =>{
                 <input
                     type='text'
                     placeholder='Criminal_ID'
-                    className = 'addBox'
+                    className = 'addBoxMustFillOut'
                     value = {cid}
                     onChange={ev => setCID(ev.target.value)}
                 ></input>
