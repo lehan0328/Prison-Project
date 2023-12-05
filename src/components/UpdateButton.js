@@ -30,9 +30,9 @@ const UpdateButton = () =>{
 
     const onCriminalUpdateClick = (ev) => {
         ev.preventDefault()
-        const data = {Name: cname, Criminal_ID: cid, Phone_num: cnumber, Address: address, Violent_Offender_Status: offenderstatus, Probation_Status: probationstatus, Aliases: Aliases}
-        console.log(data)
-        //axios.post('http://localhost:3005/main_page/deleteCriminalOfficer/${Criminal_ID}', cid)
+        const data = {updatedCriminalIdData:{Name: cname, Criminal_ID: cid, Phone_num: cnumber, Address: address, Violent_Offender_Status: offenderstatus, Probation_Status: probationstatus, Aliases: Aliases}}
+        //console.log(data)
+        axios.put(`http://localhost:3005/main_page/update_criminal/${cid}`, data)
         //setCName('')
         //setCID('')
         //setCNumber('')
