@@ -71,19 +71,19 @@ const CardsSection = ({data}) => {
       {
         title: 'Total Police',
         amount: policeCount,
-        icon: 'Money',
+        icon: 'Savings',
         // percentage: '2.3',
       },
       {
         title: 'Total Criminal',
         amount: criminalCount,
-        icon: 'PaymentCard',
+        icon: 'Money',
         // percentage: '0.3'
       },
       {
         title: 'Total Precinct',
         amount: precinctCount,
-        icon: 'Savings',
+        icon: 'PaymentCard',
         // percentage: '1.3'
       }
     ];

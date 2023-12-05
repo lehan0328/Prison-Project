@@ -125,7 +125,7 @@ const UpdateButton = () =>{
                 ></input>
                 <input
                     type='text'
-                    placeholder='Violent Offender Status'
+                    placeholder='V.O. Status'
                     className = 'addBox'
                     value = {offenderstatus}
                     onChange={ev => setOffenderStatus(ev.target.value)}

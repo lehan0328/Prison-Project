@@ -51,7 +51,7 @@ const MainPage = () => {
               <OperationTable data={data}/>
             </div>
             <div className="ms-Grid-row">
-                  <UpdateButton/>
+                  <DeleteButton/>
             </div>
             </div>
         </div>
