@@ -4,19 +4,27 @@ import axios from 'axios';
 
 const SearchBar = () =>{
 
-    const [cname, setCName] = useState('');
+    const [search, setSearch] = useState('');
 
+    const onSearchClick=() => {
+        setSearch('')
+    }
 
     return(
-        <div className='addContainer'>
+        <div className='searchContainer'>
             <input
                     type='text'
                     placeholder=''
                     className = 'searchBox'
-                    //onChange={ev => setBnum(ev.target.value)}
+                    value={search}
+                    onChange={ev => setSearch(ev.target.value)}
+            ></input>
+            <input
+                type='button'
+                value={'Search'}
+                onClick={onSearchClick}
             ></input>
         </div>
-        
     );
 };
 

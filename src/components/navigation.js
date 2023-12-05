@@ -50,10 +50,25 @@ const Navigation = ({setOperation}) => {
             }
           },
           {
-            name: 'Search',
+            name: 'Update',
             key: 'key3',
             // url: '/',
             onClick: () => setOperation("update"),
+            iconProps: {
+              iconName: 'PlayerSettings',
+              styles: {
+                root: {
+                  fontSize: 20,
+                  color: '#106ebe',
+                },
+              }
+            }
+          },
+          {
+            name: 'Search',
+            key: 'key3',
+            // url: '/',
+            onClick: () => setOperation("search"),
             iconProps: {
               iconName: 'PlayerSettings',
               styles: {

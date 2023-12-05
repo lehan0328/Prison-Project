@@ -94,6 +94,13 @@
   align-items: center;
 }
 
+.searchContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .searchBox{
   height: 30px;
   width: 600px;

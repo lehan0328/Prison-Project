@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const mysql = require("mysql")
+const mysqldump = require('mysqldump');
 const async = require('async');
 
 const icreateConnection = (userId) => {
@@ -320,7 +321,7 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
   });
 
   router.route('/update_criminal/:criminalId').put((req, res) => {
-    const db = createConnection(req.session.userId);
+    const db = icreateConnection(req.session.userId);
     const criminalId = req.params.criminalId;
     const { updatedCriminalData, updatedCriminalIdData } = req.body;
     const processedCriminalData = removeEmptyString(updatedCriminalData);
@@ -342,11 +343,11 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
       const updateCriminalFields = Object.keys(processedCriminalData);
       const updateCriminalValues = updateCriminalFields.map((field) => `${field} = ?`).join(', ');
       const updateCriminalSql = `UPDATE Criminal SET ${updateCriminalValues} WHERE Criminal_ID = ?`;
-
+      console.log(updateCriminalSql)
       const updateCriminalIdFields = Object.keys(processedCriminalIdData);
       const updateCriminalIdValues = updateCriminalIdFields.map((field) => `${field} = ?`).join(', ');
       const updateCriminalIdSql = `UPDATE Criminal_ID_Table SET ${updateCriminalIdValues} WHERE Criminal_ID = ?`;
-
+      console.log(updateCriminalIdSql)
       // Prepare values for the update statements
       const updateCriminalSqlValues = updateCriminalFields.map((field) => updatedCriminalData[field]);
       updateCriminalSqlValues.push(criminalId);
@@ -389,4 +390,29 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
     });
   });
 
+  router.route('/export').get(async (req, res) => {
+    try {
+      const databaseConfig = {
+        host: "database-1.cur9f5tr5hr1.us-east-2.rds.amazonaws.com",
+        user: "admin",
+        password:"preHoch99!",
+        database:"prison_project"
+      };
+
+      const dumpOptions = {
+        dest: 'path/to/exported/db-export.json', // Specify the path where you want to save the JSON file
+      };
+
+      await mysqldump({
+        ...databaseConfig,
+        ...dumpOptions,
+      });
+      console.log(res)
+
+      res.status(200).json({ message: 'Database exported successfully' });
+    } catch (error) {
+      console.error('Error exporting database:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 module.exports = router;
