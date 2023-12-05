@@ -24,6 +24,9 @@ const MainPage = () => {
       };
       fetchData();
     }, []);
+    const exportClick = () =>{
+      axios.post(`http://localhost:3005/main_page/export`);
+    }
     return (
     <div className="ms-Grid" dir="ltr">
         <div className="md-Grid-row">
@@ -31,11 +34,15 @@ const MainPage = () => {
             <Navigation />
             </div> */}
             <div className="main-element ms-Grid-col ms-sm11 ms-xl11">
+            <div className = 'exportButton'>
+              <input
+                type='button'
+                value={'Export'}
+                onClick={exportClick}
+              ></input>
+            </div>
             <div className="ms-Grid-row">
                 <CardsSection data={data}/>
-            </div>
-            <div className="ms-Grd-row">
-                <SearchBar/>
             </div>
             <div className="ms-Grid-row">
               //  <OperationTable data={data}/>

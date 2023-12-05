@@ -109,3 +109,7 @@
   border: 1px solid grey;
   padding-left: 8px;
 }
+
+.exportButton{
+  float:right;
+}
