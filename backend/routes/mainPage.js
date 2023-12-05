@@ -14,6 +14,8 @@ const icreateConnection = (userId) => {
   )
 }
 
+
+
 function removeEmptyString(obj) {
   for(const key in obj){
     if(obj.hasOwnProperty(key) && obj[key] === ""){
