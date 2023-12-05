@@ -10,39 +10,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import UpdateButton from './UpdateButton';
 import SearchBar from './SearchBar';
 
-const determineOperation = (operation) => {
-  switch (operation) {
-    case "add":
-      return(
-        <div>
-        <AddButton/>
-        </div>
-      )
-      break;
-    case "delete":
-      return (
-        <div>
-        <DeleteButton/>
-        </div>
-      )
-      break;
-    case "update":
-        return (
-          <div>
-          <UpdateButton/>
-          </div>
-        )
-        break;
-    case "search":
-      return (
-        <div>
-        <SearchBar/>
-        </div>
-      )
-      break;
-  }
-}
-
 
 const override: CSSProperties = {
   display: "block",
@@ -93,6 +60,39 @@ const MainPage = () => {
       { key: 'Criminal', text: 'Criminal' },
     ];
 
+    const determineOperation = (operation) => {
+      switch (operation) {
+        case "add":
+          return(
+            <div>
+            <AddButton setData={setData} setLoading={setLoading}/>
+            </div>
+          )
+          break;
+        case "delete":
+          return (
+            <div>
+            <DeleteButton setData={setData} setLoading={setLoading}/>
+            </div>
+          )
+          break;
+        case "update":
+            return (
+              <div>
+              <UpdateButton setData={setData} setLoading={setLoading}/>
+              </div>
+            )
+            break;
+        case "search":
+          return (
+            <div>
+            <SearchBar setData={setData} setLoading={setLoading}/>
+            </div>
+          )
+          break;
+      }
+    }
+
     const onTableChange = (event, item) => {
       setSelectedTable(item.key);
     };
@@ -115,13 +115,7 @@ const MainPage = () => {
         <div className="ms-Grid-col ms-sm1 ms-xl1">
           <Navigation setOperation={setOperation} />
         </div>
-        <div className = 'exportButton'>
-              <input
-                type='button'
-                value={'Export'}
-                onClick={exportClick}
-              ></input>
-            </div>
+
         <div className="main-element ms-Grid-col ms-sm11 ms-xl11">
           <div className="ms-Grid-row">
             <CardsSection data={data} />

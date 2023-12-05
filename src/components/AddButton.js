@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "office-ui-fabric-react/dist/css/fabric.css";
 import axios from "axios";
 
-const AddButton = () => {
+const AddButton = ({setData, setLoading}) => {
   const [pname, setPName] = useState("");
   const [bnum, setBnum] = useState("");
   const [pid, setPID] = useState("");
@@ -31,12 +31,25 @@ const AddButton = () => {
     axios
       .post("http://localhost:3005/main_page/add_officer", data)
       .then((res) => console.log(res.data));
+      fetchData("Police_Officer");
 
-    // setPName('')
-    // setBnum('')
-    // setPID('')
-    // setPNumber('')
-    // setStatus('')
+    setPName('')
+    setBnum('')
+    setPID('')
+    setPNumber('')
+    setStatus('')
+  };
+
+  const fetchData = async (selectedTable) => {
+    try {
+      setLoading(true)
+      const response = await axios.get(`http://localhost:3005/main_page/${selectedTable}}`);
+      setData(response.data);
+      setLoading(false)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false)
+    }
   };
 
   const onCriminalAddClick = (ev) => {
@@ -58,6 +71,7 @@ const AddButton = () => {
     axios
       .post("http://localhost:3005/main_page/add_criminal", data)
       .then((res) => console.log(res.data));
+    fetchData("Criminal_ID_Table");
 
     // setCName('')
     // setCID('')

@@ -25,7 +25,7 @@ const Navigation = ({setOperation}) => {
             // url: '/',
             onClick: () => setOperation("add"),
             iconProps: {
-              iconName: 'EventToDoLogo',
+              iconName: 'AddFriend',
               styles: {
                 root: {
                   fontSize: 20,
@@ -40,7 +40,7 @@ const Navigation = ({setOperation}) => {
             // url: '/',
             onClick: () => setOperation("delete"),
             iconProps: {
-              iconName: 'PlayerSettings',
+              iconName: 'UserRemove',
               styles: {
                 root: {
                   fontSize: 20,
@@ -55,7 +55,7 @@ const Navigation = ({setOperation}) => {
             // url: '/',
             onClick: () => setOperation("update"),
             iconProps: {
-              iconName: 'PlayerSettings',
+              iconName: 'UserSync',
               styles: {
                 root: {
                   fontSize: 20,
@@ -70,7 +70,7 @@ const Navigation = ({setOperation}) => {
             // url: '/',
             onClick: () => setOperation("search"),
             iconProps: {
-              iconName: 'PlayerSettings',
+              iconName: 'ProfileSearch',
               styles: {
                 root: {
                   fontSize: 20,

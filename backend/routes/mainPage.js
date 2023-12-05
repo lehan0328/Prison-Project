@@ -39,7 +39,6 @@ router.route('/:tableName').get((req, res) => {
             callback(queryErr);
             return;
           }
-
           callback(null, queryResults);
         });
       };
@@ -56,7 +55,6 @@ router.route('/:tableName').get((req, res) => {
           });
         }),
         (asyncErr) => {
-
           if (asyncErr) {
             console.error('Error executing MySQL queries:', asyncErr);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -80,6 +78,11 @@ router.route('/add_criminal').post((req, res) => {
       return;
     }
 
+    if (!criminalData.Criminal_ID || !criminalIdData.Criminal_ID) {
+      console.error('Invalid Input');
+      res.status(500).json({ error: 'Can not add empty criminal id' });
+      return;
+    }
       // Insert into Criminal_ID_Table
       const idTableSql = 'INSERT INTO Criminal_ID_Table (Criminal_ID, Phone_num, Name, Address) VALUES (?, ?, ?, ?)';
       const idTableValues = [criminalIdData.Criminal_ID, criminalIdData.Phone_num, criminalIdData.Name, criminalIdData.Address];
@@ -129,13 +132,18 @@ router.route('/add_officer').post((req, res) => {
   const db = icreateConnection(req.session.userId)
   const { policeOfficerData } = req.body;
   // Start a transaction
+  console.log(policeOfficerData)
   db.beginTransaction((err) => {
     if (err) {
       console.error('Error starting transaction:', err.message);
       res.status(500).json({ error: 'Internal Server Error' });
       return;
     }
-
+    if (!policeOfficerData.Badge_num) {
+      console.error('Invalid Input');
+      res.status(500).json({ error: 'Can not add empty badgeNum' });
+      return;
+    }
     // Insert into Police_Officer table
     const policeOfficerSql = 'INSERT INTO Police_Officer (PO_Name, Badge_num, Precinct_ID, Phone, Status) VALUES (?, ?, ?, ?, ?)';
     const policeOfficerValues = [
@@ -145,8 +153,18 @@ router.route('/add_officer').post((req, res) => {
       policeOfficerData.Phone,
       policeOfficerData.Status,
     ];
+    const procedureSql = "CALL updatePoliceCount(?);";
+    const procedureValues = [policeOfficerData.Precinct_ID]
 
     db.query(policeOfficerSql, policeOfficerValues, (policeOfficerErr, policeOfficerResults) => {
+      if (policeOfficerErr) {
+        return db.rollback(() => {
+          console.error('Error adding police officer:', policeOfficerErr.message);
+          res.status(500).json({ error: 'Internal Server Error' });
+        });
+      }
+
+    db.query(procedureSql, procedureValues, (policeOfficerErr, policeOfficerResults) => {
       if (policeOfficerErr) {
         return db.rollback(() => {
           console.error('Error adding police officer:', policeOfficerErr.message);
@@ -167,6 +185,7 @@ router.route('/add_officer').post((req, res) => {
         res.status(201).json({ message: 'Police officer added successfully' });
       });
     });
+    });
   });
 });
 
@@ -185,10 +204,42 @@ router.route('/deletePoliceOfficer/:badgeNum').delete((req, res) => {
     // Delete from Police_Officer table
     const deletePoliceOfficerSql = 'DELETE FROM Police_Officer WHERE Badge_num = ?';
 
+    const deleteArrestingOfficerSql = 'DELETE FROM Arresting_Officers WHERE Badge_Num = ?';
+
+    const selectSql = 'SELECT Precinct_ID FROM Police_Officer WHERE Badge_num LIKE ?;';
+
+    db.query(selectSql, [badgeNum], (selectErr, selectResults) => {
+      if (selectErr) {
+        return db.rollback(() => {
+          console.error('Error deleting police officer:', selectErr.message);
+          res.status(500).json({ error: 'Internal Server Error' });
+        });
+      }
+      console.log(selectResults);
+
+    db.query(deleteArrestingOfficerSql, [badgeNum], (deleteArrestingOfficerErr, deleteArrestingOfficerResults) => {
+      if (deleteArrestingOfficerErr) {
+        return db.rollback(() => {
+          console.error('Error deleting police officer:', deleteArrestingOfficerErr.message);
+          res.status(500).json({ error: 'Internal Server Error' });
+        });
+      }
+
     db.query(deletePoliceOfficerSql, [badgeNum], (deletePoliceOfficerErr, deletePoliceOfficerResults) => {
       if (deletePoliceOfficerErr) {
         return db.rollback(() => {
           console.error('Error deleting police officer:', deletePoliceOfficerErr.message);
+          res.status(500).json({ error: 'Internal Server Error' });
+        });
+      }
+    const procedureSql = "CALL updatePoliceCount(?);";
+    const procedureValues = [selectResults[0].Precinct_ID];
+    console.log(procedureValues);
+
+    db.query(procedureSql, procedureValues, (policeOfficerErr, policeOfficerResults) => {
+      if (policeOfficerErr) {
+        return db.rollback(() => {
+          console.error('Error adding police officer:', policeOfficerErr.message);
           res.status(500).json({ error: 'Internal Server Error' });
         });
       }
@@ -205,6 +256,9 @@ router.route('/deletePoliceOfficer/:badgeNum').delete((req, res) => {
         console.log('Transaction committed successfully');
         res.status(200).json({ message: 'Police officer deleted successfully' });
       });
+    });
+    });
+    });
     });
   });
 });
@@ -406,7 +460,7 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
         return;
       }
-
+      console.log(searchResults);
       res.json({ criminals: searchResults });
     });
   });
