@@ -78,9 +78,27 @@
   padding-left: 8px;
 }
 
+.addBoxMustFillOut{
+  height: 30px;
+  width: 200px;
+  font-size: medium;
+  border-radius: 8px;
+  border: 2px solid red;
+  padding-left: 8px;
+}
+
 .addContainer{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.searchBox{
+  height: 30px;
+  width: 600px;
+  font-size: medium;
+  border-radius: 8px;
+  border: 1px solid grey;
+  padding-left: 8px;
 }

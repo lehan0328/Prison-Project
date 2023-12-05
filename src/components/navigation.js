@@ -53,6 +53,7 @@ const Navigation = ({setOperation}) => {
             name: 'Search',
             key: 'key3',
             // url: '/',
+            onClick: () => setOperation("update"),
             iconProps: {
               iconName: 'PlayerSettings',
               styles: {

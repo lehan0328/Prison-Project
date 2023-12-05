@@ -7,6 +7,8 @@ import AddButton from './AddButton';
 import axios from 'axios';
 import DeleteButton from './DeleteButton';
 import ClipLoader from "react-spinners/ClipLoader";
+import UpdateButton from './UpdateButton';
+import SearchBar from './SearchBar';
 
 const determineOperation = (operation) => {
   switch (operation) {
@@ -24,6 +26,13 @@ const determineOperation = (operation) => {
         </div>
       )
       break;
+    case "update":
+        return (
+          <div>
+          <UpdateButton/>
+          </div>
+        )
+        break;
   }
 }
 

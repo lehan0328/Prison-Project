@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
+
 const Login = (props) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -17,12 +18,15 @@ const Login = (props) => {
         const data = {username: email, password: password}
         console.log(data)
         axios.post('http://localhost:3005/login/log', data)
-        .then(res => setSuccess(res.success));
-        setEmail('')
-        setPassword('')
-        if(success){
-            navigate("/main_page");
-        }
+        .then(res=>{
+            console.log(res.data);
+            if(res.data.success){
+                navigate("/main_page");
+            }
+        })
+        .catch(error=>{
+
+        })
     }
     const onButtonRegisterClick = () =>{
         navigate("/register_page");

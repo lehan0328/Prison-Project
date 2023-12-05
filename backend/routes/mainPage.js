@@ -13,6 +13,15 @@ const icreateConnection = (userId) => {
   )
 }
 
+function removeEmptyString(obj) {
+  for(const key in obj){
+    if(obj.hasOwnProperty(key) && obj[key] === ""){
+      delete obj[key];
+    }
+  }
+  return obj;
+}
+
 router.route('/:tableName').get((req, res) => {
     const db = icreateConnection(req.session.userId)
     const tableName = req.params.tableName;
@@ -260,10 +269,10 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
   });
 
   router.route('/update_police_officer/:badgeNum').put((req, res) => {
-    const db = createConnection(req.session.userId);
+    const db = icreateConnection(req.session.userId);
     const badgeNum = req.params.badgeNum;
     const { updatedPoliceOfficerData } = req.body;
-
+    const processedData = removeEmptyString(updatedPoliceOfficerData);
     if (!updatedPoliceOfficerData || Object.keys(updatedPoliceOfficerData).length === 0) {
       return res.status(400).json({ error: 'No fields provided for update' });
     }
@@ -276,8 +285,9 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
         return;
       }
 
+
       // Construct dynamic update SQL statement
-      const updateFields = Object.keys(updatedPoliceOfficerData);
+      const updateFields = Object.keys(processedData);
       const updateValues = updateFields.map((field) => `${field} = ?`).join(', ');
       const updatePoliceOfficerSql = `UPDATE Police_Officer SET ${updateValues} WHERE Badge_num = ?`;
 
@@ -309,5 +319,74 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
     });
   });
 
+  router.route('/update_criminal/:criminalId').put((req, res) => {
+    const db = createConnection(req.session.userId);
+    const criminalId = req.params.criminalId;
+    const { updatedCriminalData, updatedCriminalIdData } = req.body;
+    const processedCriminalData = removeEmptyString(updatedCriminalData);
+    const processedCriminalIdData = removeEmptyString(updatedCriminalIdData);
+    if ((!updatedCriminalData || Object.keys(updatedCriminalData).length === 0) &&
+        (!updatedCriminalIdData || Object.keys(updatedCriminalIdData).length === 0)) {
+      return res.status(400).json({ error: 'No fields provided for update' });
+    }
+
+    // Start a transaction
+    db.beginTransaction((err) => {
+      if (err) {
+        console.error('Error starting transaction:', err.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+
+      // Construct dynamic update SQL statements
+      const updateCriminalFields = Object.keys(processedCriminalData);
+      const updateCriminalValues = updateCriminalFields.map((field) => `${field} = ?`).join(', ');
+      const updateCriminalSql = `UPDATE Criminal SET ${updateCriminalValues} WHERE Criminal_ID = ?`;
+
+      const updateCriminalIdFields = Object.keys(processedCriminalIdData);
+      const updateCriminalIdValues = updateCriminalIdFields.map((field) => `${field} = ?`).join(', ');
+      const updateCriminalIdSql = `UPDATE Criminal_ID_Table SET ${updateCriminalIdValues} WHERE Criminal_ID = ?`;
+
+      // Prepare values for the update statements
+      const updateCriminalSqlValues = updateCriminalFields.map((field) => updatedCriminalData[field]);
+      updateCriminalSqlValues.push(criminalId);
+
+      const updateCriminalIdSqlValues = updateCriminalIdFields.map((field) => updatedCriminalIdData[field]);
+      updateCriminalIdSqlValues.push(criminalId);
+
+      // Execute the first update statement for Criminal table
+      db.query(updateCriminalSql, updateCriminalSqlValues, (updateCriminalErr, updateCriminalResults) => {
+        if (updateCriminalErr) {
+          return db.rollback(() => {
+            console.error('Error updating criminal:', updateCriminalErr.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+        }
+
+        // Execute the second update statement for Criminal_ID_Table
+        db.query(updateCriminalIdSql, updateCriminalIdSqlValues, (updateCriminalIdErr, updateCriminalIdResults) => {
+          if (updateCriminalIdErr) {
+            return db.rollback(() => {
+              console.error('Error updating criminal ID:', updateCriminalIdErr.message);
+              res.status(500).json({ error: 'Internal Server Error' });
+            });
+          }
+
+          // Commit the transaction if both updates were successful
+          db.commit((commitErr) => {
+            if (commitErr) {
+              return db.rollback(() => {
+                console.error('Error committing transaction:', commitErr.message);
+                res.status(500).json({ error: 'Internal Server Error' });
+              });
+            }
+
+            console.log('Transaction committed successfully');
+            res.status(200).json({ message: 'Criminal and Criminal ID updated successfully' });
+          });
+        });
+      });
+    });
+  });
 
 module.exports = router;
