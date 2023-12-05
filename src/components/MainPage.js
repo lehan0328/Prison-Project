@@ -45,7 +45,10 @@ const MainPage = () => {
                 <CardsSection data={data}/>
             </div>
             <div className="ms-Grid-row">
-              //  <OperationTable data={data}/>
+                <SearchBar/>
+            </div>
+            <div className="ms-Grid-row">
+              <OperationTable data={data}/>
             </div>
             <div className="ms-Grid-row">
                   <UpdateButton/>

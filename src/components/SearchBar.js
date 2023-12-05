@@ -7,14 +7,16 @@ const SearchBar = () =>{
     const [search, setSearch] = useState('');
 
     const onSearchClick=() => {
-        setSearch('')
+        const data = {Name: search}
+        axios.post(`http://localhost:3005/main_page/searchCriminal/${search}`,data);
+        //setSearch('')
     }
 
     return(
         <div className='searchContainer'>
             <input
                     type='text'
-                    placeholder=''
+                    placeholder='Search by criminal name'
                     className = 'searchBox'
                     value={search}
                     onChange={ev => setSearch(ev.target.value)}
