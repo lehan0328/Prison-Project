@@ -36,6 +36,7 @@ const determineOperation = (operation) => {
   }
 }
 
+
 const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
@@ -64,6 +65,11 @@ const MainPage = () => {
       };
       fetchData();
     }, [selectedTable]);
+
+    const exportClick = () => {
+      axios.put("http://localhost:3005/main_page/export")
+      .then((res) => console.log(res.data));
+    }
 
     const tableOptions = [
       { key: 'Crime', text: 'Crime' },
@@ -102,6 +108,13 @@ const MainPage = () => {
         <div className="ms-Grid-col ms-sm1 ms-xl1">
           <Navigation setOperation={setOperation} />
         </div>
+        <div className = 'exportButton'>
+              <input
+                type='button'
+                value={'Export'}
+                onClick={exportClick}
+              ></input>
+            </div>
         <div className="main-element ms-Grid-col ms-sm11 ms-xl11">
           <div className="ms-Grid-row">
             <CardsSection data={data} />

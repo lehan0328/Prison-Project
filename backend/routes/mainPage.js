@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const mysql = require("mysql")
-const mysqldump = require('mysqldump');
 const async = require('async');
+
 
 const icreateConnection = (userId) => {
   return(
@@ -390,29 +390,25 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
     });
   });
 
-  router.route('/export').get(async (req, res) => {
-    try {
-      const databaseConfig = {
-        host: "database-1.cur9f5tr5hr1.us-east-2.rds.amazonaws.com",
-        user: "admin",
-        password:"preHoch99!",
-        database:"prison_project"
-      };
+  router.route('/export').put(async (req, res) => {
 
-      const dumpOptions = {
-        dest: 'path/to/exported/db-export.json', // Specify the path where you want to save the JSON file
-      };
-
-      await mysqldump({
-        ...databaseConfig,
-        ...dumpOptions,
-      });
-      console.log(res)
-
-      res.status(200).json({ message: 'Database exported successfully' });
-    } catch (error) {
-      console.error('Error exporting database:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
   });
+
+  router.route('/searchCriminal/:name').put((req, res) => {
+    const name = req.params.name;
+    const db = icreateConnection(req.session.userId);
+    const searchQuery = 'SELECT * FROM Criminal WHERE Name LIKE ?';
+    const searchValue = `%${name}%`;
+
+    db.query(searchQuery, [searchValue], (searchErr, searchResults) => {
+      if (searchErr) {
+        console.error('Error searching criminals by name:', searchErr);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+
+      res.json({ criminals: searchResults });
+    });
+  });
+
 module.exports = router;
