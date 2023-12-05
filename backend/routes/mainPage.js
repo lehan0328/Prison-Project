@@ -394,10 +394,10 @@ router.route('/deleteCriminal/:criminalId').delete((req, res) => {
 
   });
 
-  router.route('/searchCriminal/:name').put((req, res) => {
+  router.route('/searchCriminal/:name').post((req, res) => {
     const name = req.params.name;
     const db = icreateConnection(req.session.userId);
-    const searchQuery = 'SELECT * FROM Criminal WHERE Name LIKE ?';
+    const searchQuery = "SELECT t.Phone_num, t.Name, t.Address, c.Criminal_ID, c.Violent_Offender_Status, c.Probation_Status, c.Aliases FROM Criminal_ID_Table t INNER JOIN Criminal c ON c.Criminal_ID = t.Criminal_ID WHERE t.Name LIKE ?";
     const searchValue = `%${name}%`;
 
     db.query(searchQuery, [searchValue], (searchErr, searchResults) => {

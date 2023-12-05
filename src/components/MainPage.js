@@ -33,6 +33,13 @@ const determineOperation = (operation) => {
           </div>
         )
         break;
+    case "search":
+      return (
+        <div>
+        <SearchBar/>
+        </div>
+      )
+      break;
   }
 }
 
