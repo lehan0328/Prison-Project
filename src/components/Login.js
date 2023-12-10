@@ -8,7 +8,7 @@ const Login = (props) => {
     const [password, setPassword] = useState("")
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
-//    const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false)
 
     const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const Login = (props) => {
             }
         })
         .catch(error=>{
-            
+
         })
     }
     const onButtonRegisterClick = () =>{
@@ -42,7 +42,7 @@ const Login = (props) => {
                 value={email}
                 placeholder="Enter your email here"
                 onChange={ev => setEmail(ev.target.value)}
-                type = "text"
+            
                 className={"inputBox"} />
             <label className="errorLabel">{emailError}</label>
         </div>
@@ -52,7 +52,7 @@ const Login = (props) => {
                 value={password}
                 placeholder="Enter your password here"
                 onChange={ev => setPassword(ev.target.value)}
-                type = "text"
+                type="password"
                 className={"inputBox"} />
             <label className="errorLabel">{passwordError}</label>
         </div>

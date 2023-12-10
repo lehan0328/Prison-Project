@@ -2,19 +2,34 @@ import React, { useEffect, useState } from 'react';
 import 'office-ui-fabric-react/dist/css/fabric.css';
 import axios from 'axios';
 
-const DeleteButton = () =>{
+const DeleteButton = ({setData, setLoading}) =>{
     const [bnum, setBnum] = useState('');
     const [cid, setCID] = useState('');
 
+    const fetchData = async (selectedTable) => {
+        try {
+          setLoading(true)
+          setLoading(true)
+          const response = await axios.get(`http://localhost:3005/main_page/${selectedTable}}`);
+          setData(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        }
+      };
     const onOfficerDeleteButton = (ev) => {
-        ev.preventDefault()
-        axios.post('http://localhost:3005/main_page/deletePoliceOfficer/${Badge_num}', bnum)
+        ev.preventDefault();
+        axios.delete(`http://localhost:3005/main_page/deletePoliceOfficer/${bnum}`);
+        fetchData("Police_Officer");
     }
 
     const onCriminalDeleteButton = (ev) => {
-        ev.preventDefault()
-        axios.post('http://localhost:3005/main_page/deleteCriminalOfficer/${Criminal_ID}', cid)
+        ev.preventDefault();
+        axios.delete(`http://localhost:3005/main_page/deleteCriminal/${cid}`);
+        fetchData("Criminal_ID_Table");
     }
+
 
     return(
         <div>

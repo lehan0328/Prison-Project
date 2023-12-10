@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Card } from '@uifabric/react-cards';
 import { Text, initializeIcons } from '@fluentui/react';
 import 'office-ui-fabric-react/dist/css/fabric.css';
-import axios from 'axios';
 
 // Container Styling
 const container = {
@@ -71,7 +70,11 @@ const CardsSection = ({data}) => {
       {
         title: 'Total Police',
         amount: policeCount,
+<<<<<<< HEAD
         icon: 'Badge',
+=======
+        icon: 'Shield',
+>>>>>>> Lehan/dev
         // percentage: '2.3',
       },
       {
@@ -83,7 +86,11 @@ const CardsSection = ({data}) => {
       {
         title: 'Total Precinct',
         amount: precinctCount,
+<<<<<<< HEAD
         icon: 'CityNext2',
+=======
+        icon: 'EMI',
+>>>>>>> Lehan/dev
         // percentage: '1.3'
       }
     ];

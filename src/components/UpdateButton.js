@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'office-ui-fabric-react/dist/css/fabric.css';
 import axios from 'axios';
 
-const UpdateButton = () =>{
+const UpdateButton = ({setData, setLoading}) =>{
     const [pname, setPName] = useState('');
     const [bnum, setBnum] = useState('');
     const [pid, setPID] = useState('');
@@ -16,11 +16,23 @@ const UpdateButton = () =>{
     const [offenderstatus, setOffenderStatus] = useState('');
     const [probationstatus, setProbationStatus] = useState('');
     const [Aliases, setAliases] = useState('');
-
+    const fetchData = async (selectedTable) => {
+        try {
+          setLoading(true)
+          setLoading(true)
+          const response = await axios.get(`http://localhost:3005/main_page/${selectedTable}}`);
+          setData(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        }
+      };
     const onOfficerUpdateClick = (ev) => {
         ev.preventDefault()
         const data = {updatedPoliceOfficerData:{PO_Name: pname, Badge_num: bnum, Precinct_ID: pid, Phone: pnumber, Status: status}}
         axios.put(`http://localhost:3005/main_page/update_police_officer/${bnum}`, data)
+        fetchData("Police_Officer");
         //setPName('')
         //setBnum('')
         //setPID('')
@@ -30,9 +42,21 @@ const UpdateButton = () =>{
 
     const onCriminalUpdateClick = (ev) => {
         ev.preventDefault()
-        const data = {updatedCriminalIdData:{Name: cname, Criminal_ID: cid, Phone_num: cnumber, Address: address, Violent_Offender_Status: offenderstatus, Probation_Status: probationstatus, Aliases: Aliases}}
+        const data = {updatedCriminalIdData: {
+            Name: cname,
+            Criminal_ID: cid,
+            Phone_num: cnumber,
+            Address: address,
+          },
+          updatedCriminalData: {
+            Criminal_ID: cid,
+            Violent_Offender_Status: offenderstatus,
+            Probation_Status: probationstatus,
+            Aliases: Aliases,
+          }}
         //console.log(data)
         axios.put(`http://localhost:3005/main_page/update_criminal/${cid}`, data)
+        fetchData("Criminal_ID_Table");
         //setCName('')
         //setCID('')
         //setCNumber('')
@@ -151,7 +175,7 @@ const UpdateButton = () =>{
                 ></input>
             </div>
         </div>
-        
+
     );
 };
 

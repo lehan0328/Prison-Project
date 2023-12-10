@@ -14,6 +14,7 @@ const classNames = mergeStyleSets({
 const OperationsTable = ({data}) => {
   const[tableData, setTableData] = useState([]);
   const [columns, setColumns] = useState([]);
+  console.log(data)
   useEffect(() => {
     if(data && data.query4){
       const columns = Object.keys(data.query4[0] || {}).map((key) => ({
