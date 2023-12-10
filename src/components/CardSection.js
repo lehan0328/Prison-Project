@@ -70,11 +70,8 @@ const CardsSection = ({data}) => {
       {
         title: 'Total Police',
         amount: policeCount,
-<<<<<<< HEAD
-        icon: 'Badge',
-=======
+
         icon: 'Shield',
->>>>>>> Lehan/dev
         // percentage: '2.3',
       },
       {
@@ -86,11 +83,7 @@ const CardsSection = ({data}) => {
       {
         title: 'Total Precinct',
         amount: precinctCount,
-<<<<<<< HEAD
-        icon: 'CityNext2',
-=======
         icon: 'EMI',
->>>>>>> Lehan/dev
         // percentage: '1.3'
       }
     ];

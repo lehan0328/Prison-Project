@@ -88,13 +88,53 @@ const MainPage = () => {
             <div>
             <SearchBar setData={setData} setLoading={setLoading}/>
             </div>
-            <div className="ms-Grid-row">
-              <OperationTable data={data}/>
-            </div>
-            <div className="ms-Grid-row">
-                  <UpdateButton/>
-            </div>
-            </div>
+          )
+          break;
+      }
+    }
+
+    const onTableChange = (event, item) => {
+      setSelectedTable(item.key);
+    };
+    return (
+      loading?
+      (
+      <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <ClipLoader
+      loading={loading}
+      cssOverride={override}
+      size={150}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+      />
+      </div>
+      )
+      :
+     (<div className="ms-Grid" dir="ltr">
+      <div className="md-Grid-row">
+        <div className="ms-Grid-col ms-sm1 ms-xl1">
+          <Navigation setOperation={setOperation} />
+        </div>
+
+        <div className="main-element ms-Grid-col ms-sm11 ms-xl11">
+          <div className="ms-Grid-row">
+            <CardsSection data={data} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <Dropdown
+              placeholder="Select a table"
+              options={tableOptions}
+              selectedKey={selectedTable}
+              onChange={onTableChange}
+              styles={{ root: { width: `800px` } }}
+            />
+          </div>
+          <div className="ms-Grid-row" style={{marginBottom: '50px'}}>
+            <OperationTable data={data} />
+          </div>
+          <div className="ms-Grid-row">
+            {determineOperation(operation)}
+          </div>
         </div>
       </div>
     </div>)
