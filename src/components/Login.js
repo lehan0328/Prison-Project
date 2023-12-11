@@ -29,10 +29,11 @@ const Login = (props) => {
         })
     }
     const onButtonRegisterClick = () =>{
-        navigate("/register_page");
+        navigate("/Register");
     }
 
     return <div className={"mainContainer"}>
+        
         <div className={"titleContainer"}>
             <div>Login</div>
         </div>

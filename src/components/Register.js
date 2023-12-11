@@ -10,9 +10,10 @@ const Register = (props) => {
     const navigate = useNavigate();
 
     const onButtonClick =() => {
-        navigate("/Login")
+        navigate("/")
     }
     return <div className={"mainContainer"}>
+        
         <div className={"titleContainer"}>
             <div>Sign Up</div>
         </div>
