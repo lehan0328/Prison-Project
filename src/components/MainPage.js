@@ -59,7 +59,19 @@ const MainPage = () => {
       { key: 'Type_Of_Sentencing', text: 'Type Of Sentencing' },
       { key: 'Criminal', text: 'Criminal' },
     ];
-
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+          const userType = cookieValue.split('_')[0];
+          return userType;
+        }
+      }
+      return null;
+    }
+    const sessionIdCookie = getCookie('sessionId');
+    console.log('sessionId:', sessionIdCookie);
     const determineOperation = (operation) => {
       switch (operation) {
         case "add":
@@ -121,6 +133,8 @@ const MainPage = () => {
       <div className="md-Grid-row">
         <div className="ms-Grid-col ms-sm1 ms-xl1">
           <Navigation setOperation={setOperation} />
+        </div>
+        <div className = "header3">
         </div>
 
         <div className="main-element ms-Grid-col ms-sm11 ms-xl11">
