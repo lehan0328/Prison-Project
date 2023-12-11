@@ -117,9 +117,7 @@ const MainPage = () => {
       
       
       <div className="ms-Grid" dir="ltr">
-        <div className = "header3">
-          hello
-        </div>
+        
       <div className="md-Grid-row">
         <div className="ms-Grid-col ms-sm1 ms-xl1">
           <Navigation setOperation={setOperation} />
