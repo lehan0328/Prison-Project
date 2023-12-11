@@ -60,6 +60,19 @@ const MainPage = () => {
       { key: 'Criminal', text: 'Criminal' },
     ];
 
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+          const userType = cookieValue.split('_')[0];
+          return userType;
+        }
+      }
+      return null;
+    }
+    const sessionIdCookie = getCookie('sessionId');
+    console.log('sessionId:', sessionIdCookie);
     const determineOperation = (operation) => {
       switch (operation) {
         case "add":

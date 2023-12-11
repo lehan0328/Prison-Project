@@ -35,6 +35,8 @@ router.route('/:tableName').get((req, res) => {
         `SELECT * FROM ${tableName}`
     ];
     const results = {}
+    const userId = req.session.userId;
+    console.log(userId)
     const executeQuery = (query, callback) => {
         db.query(query, (queryErr, queryResults) => {
           if (queryErr) {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Register = (props) => {
     const [email, setEmail] = useState("")
@@ -9,9 +10,23 @@ const Register = (props) => {
 
     const navigate = useNavigate();
 
-    const onButtonClick =() => {
-        navigate("/Login")
+    const onButtonClick = (ev) => {
+
+        ev.preventDefault()
+        const data = {username: email, password: password}
+        console.log(data)
+        axios.post('http://localhost:3005/register/regi', data)
+        .then(res=>{
+            console.log(res.data);
+            if(res.data.success){
+                navigate("/");
+            }
+        })
+        .catch(error=>{
+
+        })
     }
+
     return <div className={"mainContainer"}>
         <div className={"titleContainer"}>
             <div>Sign Up</div>
@@ -30,6 +45,7 @@ const Register = (props) => {
             <input
                 value={password}
                 placeholder="Set your password here"
+                type="password"
                 onChange={ev => setPassword(ev.target.value)}
                 className={"inputBox"} />
             <label className="errorLabel">{passwordError}</label>

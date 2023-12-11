@@ -9,6 +9,7 @@ const Login = (props) => {
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [success, setSuccess] = useState(false)
+    const [register, Register] = useState(false)
 
     const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const Login = (props) => {
         ev.preventDefault()
         const data = {username: email, password: password}
         console.log(data)
-        axios.post('http://localhost:3005/login/log', data)
+        axios.post('http://localhost:3005/login/log', data, {withCredentials: true, credentials: 'include'})
         .then(res=>{
             console.log(res.data);
             if(res.data.success){
@@ -29,12 +30,19 @@ const Login = (props) => {
         })
     }
     const onButtonRegisterClick = () =>{
-        navigate("/register_page");
+        navigate("/register");
+    }
+    const display = () => {
+        if (register){
+            return "Register"
+        } else{
+            return "Login"
+        }
     }
 
     return <div className={"mainContainer"}>
         <div className={"titleContainer"}>
-            <div>Login</div>
+            <div>{display()}</div>
         </div>
         <br />
         <div className={"inputContainer"}>
@@ -42,7 +50,7 @@ const Login = (props) => {
                 value={email}
                 placeholder="Enter your email here"
                 onChange={ev => setEmail(ev.target.value)}
-            
+
                 className={"inputBox"} />
             <label className="errorLabel">{emailError}</label>
         </div>
