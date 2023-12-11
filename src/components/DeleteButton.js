@@ -33,7 +33,7 @@ const DeleteButton = ({setData, setLoading}) =>{
 
     return(
         <div>
-            <div className='addContainer'>
+            <div className='deleteContainer'>
                 <div className = 'addText'>
                     <div>Delete Police Officer</div>
                 </div>
@@ -41,7 +41,7 @@ const DeleteButton = ({setData, setLoading}) =>{
                 <div>
                     <input
                         type='text'
-                        placeholder='Enter Badge Number'
+                        placeholder='Badge Number'
                         className = 'addBox'
                         value = {bnum}
                         onChange={ev => setBnum(ev.target.value)}
@@ -53,14 +53,14 @@ const DeleteButton = ({setData, setLoading}) =>{
                     ></input>
                 </div>
             </div>
-            <div className='addContainer'>
+            <div className='deleteContainer'>
                 <div className = 'addText'>
                     <div>Delete Criminal</div>
                 </div>
                 <div>
                     <input
                         type='text'
-                        placeholder='Enter Criminal_ID'
+                        placeholder='Criminal_ID'
                         className = 'addBox'
                         value = {cid}
                         onChange={ev => setCID(ev.target.value)}

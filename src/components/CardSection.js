@@ -70,6 +70,7 @@ const CardsSection = ({data}) => {
       {
         title: 'Total Police',
         amount: policeCount,
+
         icon: 'Shield',
         // percentage: '2.3',
       },
