@@ -40,12 +40,6 @@ const MainPage = () => {
     fetchData();
   }, [selectedTable]);
 
-  const exportClick = () => {
-    axios
-      .put("http://localhost:3005/main_page/export")
-      .then((res) => console.log(res.data));
-  };
-
   const tableOptions = [
     { key: "Crime", text: "Crime" },
     { key: "Criminal", text: "Criminal" },
@@ -58,7 +52,6 @@ const MainPage = () => {
     { key: "Precinct", text: "Precinct" },
     { key: "Sentencing", text: "Sentencing" },
     { key: "Type_Of_Sentencing", text: "Type Of Sentencing" },
-    { key: "Criminal", text: "Criminal" },
   ];
 
   function getCookie(name) {
@@ -72,14 +65,13 @@ const MainPage = () => {
     }
     return null;
   }
-  const sessionIdCookie = getCookie("sessionId");
-  console.log("sessionId:", sessionIdCookie);
+
   const determineOperation = (operation) => {
     switch (operation) {
       case "add":
         return (
           <div>
-            <AddButton setData={setData} setLoading={setLoading} />
+            <AddButton setData={setData} setLoading={setLoading} selectedTable={selectedTable}/>
           </div>
         );
         break;
@@ -128,8 +120,8 @@ const MainPage = () => {
       />
     </div>
   ) : (
-    <div className="ms-Grid" dir="ltr">
-      <header className="headerBox">
+    <div>
+       <header className="headerBox">
         <div className="header1">
           <i
             class="ms-Icon ms-Icon--Badge"
@@ -142,6 +134,7 @@ const MainPage = () => {
           {getCookie("sessionId") == "enduser" ? "User" : "Admin"}
         </div>
       </header>
+    <div className="ms-Grid" dir="ltr">
       <div className="md-Grid-row">
         {getCookie("sessionId") == "admin" ? (
           <div className="ms-Grid-col ms-sm1 ms-xl1">
@@ -174,6 +167,7 @@ const MainPage = () => {
           <div className="ms-Grid-row">{determineOperation(operation)}</div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

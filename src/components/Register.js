@@ -26,7 +26,7 @@ const Register = (props) => {
   };
 
   return (
-    <div className="ms-Grid" dir="ltr">
+    <div>
         <header className="headerBox">
         <div className="header1">
           <i

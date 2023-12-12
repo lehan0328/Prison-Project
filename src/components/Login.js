@@ -41,8 +41,8 @@ const Login = (props) => {
   };
 
   return (
-    <div className="ms-Grid" dir="ltr">
-        <header className="headerBox">
+    <div>
+      <header className="headerBox">
         <div className="header1">
           <i
             class="ms-Icon ms-Icon--Badge"
@@ -52,50 +52,50 @@ const Login = (props) => {
         </div>
         <div className="header2">Tandon Police DEPT DB</div>
       </header>
-    <div className={"mainContainer"}>
-      <div className={"titleContainer"}>
-        <div>{display()}</div>
+      <div className={"mainContainer"}>
+        <div className={"titleContainer"}>
+          <div>{display()}</div>
+        </div>
+        <br />
+        <div className={"inputContainer"}>
+          <input
+            value={email}
+            placeholder="Enter your email here"
+            onChange={(ev) => setEmail(ev.target.value)}
+            className={"inputBox"}
+          />
+          <label className="errorLabel">{emailError}</label>
+        </div>
+        <br />
+        <div className={"inputContainer"}>
+          <input
+            value={password}
+            placeholder="Enter your password here"
+            onChange={(ev) => setPassword(ev.target.value)}
+            type="password"
+            className={"inputBox"}
+          />
+          <label className="errorLabel">{passwordError}</label>
+        </div>
+        <br />
+        <div className={"inputContainer"}>
+          <input
+            className={"inputButton"}
+            type="button"
+            onClick={onButtonClick}
+            value={"Log in"}
+          />
+        </div>
+        <br />
+        <div className={"inputContainer"}>
+          <input
+            className={"inputButton"}
+            type="button"
+            onClick={onButtonRegisterClick}
+            value={"Sign up"}
+          />
+        </div>
       </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          value={email}
-          placeholder="Enter your email here"
-          onChange={(ev) => setEmail(ev.target.value)}
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{emailError}</label>
-      </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          value={password}
-          placeholder="Enter your password here"
-          onChange={(ev) => setPassword(ev.target.value)}
-          type="password"
-          className={"inputBox"}
-        />
-        <label className="errorLabel">{passwordError}</label>
-      </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          className={"inputButton"}
-          type="button"
-          onClick={onButtonClick}
-          value={"Log in"}
-        />
-      </div>
-      <br />
-      <div className={"inputContainer"}>
-        <input
-          className={"inputButton"}
-          type="button"
-          onClick={onButtonRegisterClick}
-          value={"Sign up"}
-        />
-      </div>
-    </div>
     </div>
   );
 };
