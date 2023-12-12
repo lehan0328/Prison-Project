@@ -38,7 +38,7 @@ router.route('/log').post((req, res) => {
         // Store userId in the session
         req.session.userId = userId;
         res.cookie('sessionId', `${userId}_${req.sessionID}`, {
-          maxAge: null, secure: true, httpOnly: true
+          maxAge: null, secure: true, httpOnly: true, sameSite: 'none'
         });
 
         return res.json({ success: true, message: 'Login successful' });

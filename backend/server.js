@@ -13,7 +13,7 @@ app.use(
     secret: 'your-secret-key',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true, httpOnly: true  // Set to true if using HTTPS
+    cookie: { secure: true, httpOnly: true, sameSite: 'none'  // Set to true if using HTTPS
     },
   })
 );
