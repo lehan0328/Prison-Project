@@ -24,6 +24,7 @@ const Login = (props) => {
       .then((res) => {
         console.log(res.data);
         if (res.data.success) {
+            document.cookie = `userId=${res.data.userRole}; expires=${new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toUTCString()}; path=/`;
           navigate("/main_page");
         }
       })

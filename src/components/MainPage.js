@@ -54,18 +54,20 @@ const MainPage = () => {
     { key: "Type_Of_Sentencing", text: "Type Of Sentencing" },
   ];
 
-  function getCookie(name) {
-    const cookies = document.cookie.split(";");
+  function getUserId() {
+    const cookies = document.cookie.split('; ');
     for (const cookie of cookies) {
-      const [cookieName, cookieValue] = cookie.trim().split("=");
-      if (cookieName === name) {
-        const userType = cookieValue.split("_")[0];
-        return userType;
+      const [name, value] = cookie.split('=');
+      if (name === 'userId') {
+        // Found the "userId" cookie
+        return value;
       }
     }
+
+    // If "userId" cookie is not found
     return null;
   }
-
+  console.log(getUserId())
   const determineOperation = (operation) => {
     switch (operation) {
       case "add":
@@ -131,12 +133,12 @@ const MainPage = () => {
         </div>
         <div className="header2">Tandon Police DEPT DB</div>
         <div className="header3">
-          {getCookie("sessionId") == "enduser" ? "User" : "Admin"}
+          {getUserId() == "enduser" ? "User" : "Admin"}
         </div>
       </header>
     <div className="ms-Grid" dir="ltr">
       <div className="md-Grid-row">
-        {getCookie("sessionId") == "admin" ? (
+        {getUserId() == "admin" ? (
           <div className="ms-Grid-col ms-sm1 ms-xl1">
             <Navigation setOperation={setOperation} />
           </div>

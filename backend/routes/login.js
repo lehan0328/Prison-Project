@@ -37,11 +37,11 @@ router.route('/log').post((req, res) => {
         // console.log(userId)
         // Store userId in the session
         req.session.userId = userId;
-        res.cookie('sessionId', `${userId}_${req.sessionID}`, {
-          maxAge: null, secure: true, httpOnly: true, sameSite: 'none'
-        });
+        // res.cookie('sessionId', `${userId}_${req.sessionID}`, {
+        //   maxAge: null, secure: true, httpOnly: true, sameSite: 'none'
+        // });
 
-        return res.json({ success: true, message: 'Login successful' });
+        return res.json({ success: true, message: 'Login successful' , userRole: userId});
       } else {
         return res.status(401).json({ error: 'Invalid username or password' });
       }
