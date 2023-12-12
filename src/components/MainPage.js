@@ -67,7 +67,8 @@ const MainPage = () => {
     // If "userId" cookie is not found
     return null;
   }
-  console.log(getUserId())
+
+  
   const determineOperation = (operation) => {
     switch (operation) {
       case "add":

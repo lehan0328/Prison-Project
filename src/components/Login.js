@@ -2,14 +2,22 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+function clearAllCookies() {
+    const cookies = document.cookie.split('; ');
+
+    for (const cookie of cookies) {
+      const [name] = cookie.split('=');
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+    }
+  }
 const Login = (props) => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [success, setSuccess] = useState(false);
   const [register, Register] = useState(false);
-
   const navigate = useNavigate();
 
   const onButtonClick = (ev) => {
@@ -52,6 +60,7 @@ const Login = (props) => {
           ></i>
         </div>
         <div className="header2">Tandon Police DEPT DB</div>
+        { clearAllCookies()}
       </header>
       <div className={"mainContainer"}>
         <div className={"titleContainer"}>
